@@ -1,10 +1,34 @@
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { GraduationCap, Briefcase, Code, BookOpen } from "lucide-react";
 
 const About = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+
+  const academicHighlights = [
+    {
+      icon: GraduationCap,
+      title: "Academic Journey",
+      description: "Pursuing an interdisciplinary Master's in Digital Humanities, bridging technology, social sciences, and humanities."
+    },
+    {
+      icon: Code,
+      title: "Technical Skills",
+      description: "Proficient in Python, R, JavaScript, and advanced data analysis techniques with a focus on computational methodologies."
+    },
+    {
+      icon: BookOpen,
+      title: "Research Focus",
+      description: "Exploring the intersection of AI, ethics, and public policy with a critical lens on technological transformation."
+    },
+    {
+      icon: Briefcase,
+      title: "Professional Vision",
+      description: "Committed to leveraging digital technologies to solve complex societal challenges and enhance human understanding."
+    }
+  ];
 
   return (
     <section 
@@ -31,7 +55,6 @@ const About = () => {
                 animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
               >
-                {/* Placeholder for about image - replace with actual image */}
                 <div className="aspect-[4/5] bg-gradient-to-br from-portfolio-purple/20 to-portfolio-darkPurple/30 flex items-center justify-center">
                   <span className="font-playfair text-2xl text-portfolio-deepPurple">Academic Profile</span>
                 </div>
@@ -44,72 +67,34 @@ const About = () => {
                 animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
                 transition={{ duration: 0.7, delay: 0.3 }}
               >
-                <h3 className="text-2xl mb-4 font-playfair text-portfolio-deepPurple">Digital Humanities Researcher & Scholar</h3>
-                
                 <p className="text-portfolio-gray mb-6 leading-relaxed">
-                  I am currently pursuing a Master of Science in Digital Humanities at the Indian Institute of Technology, Jodhpur. 
-                  My academic journey combines traditional humanities with cutting-edge digital technologies to explore new dimensions 
-                  of research and knowledge creation.
+                  As a Digital Humanities researcher, I am passionate about exploring the transformative potential 
+                  of technology in understanding complex social and humanistic challenges. My academic and research 
+                  journey is driven by an interdisciplinary approach that combines critical thinking with technical expertise.
                 </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div>
-                    <h4 className="text-lg font-semibold mb-2 text-portfolio-deepPurple">Education</h4>
-                    <ul className="space-y-2 text-portfolio-gray">
-                      <li>MSc, Digital Humanities - IIT Jodhpur</li>
-                      <li>BA (Hons) Philosophy - Lady Shri Ram College, DU</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-lg font-semibold mb-2 text-portfolio-deepPurple">Research Interests</h4>
-                    <ul className="space-y-2 text-portfolio-gray">
-                      <li>AI & Human Collaboration</li>
-                      <li>Digital Mapping & Visualization</li>
-                      <li>Computational Social Choice</li>
-                      <li>Philosophy of Technology</li>
-                    </ul>
-                  </div>
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                  {academicHighlights.map((highlight, index) => (
+                    <div key={index} className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-all">
+                      <div className="flex items-center mb-2">
+                        <highlight.icon className="mr-3 text-portfolio-purple" size={24} />
+                        <h4 className="text-lg font-semibold text-portfolio-deepPurple">{highlight.title}</h4>
+                      </div>
+                      <p className="text-portfolio-gray text-sm">{highlight.description}</p>
+                    </div>
+                  ))}
                 </div>
                 
-                <p className="text-portfolio-gray mb-6 leading-relaxed">
-                  My interdisciplinary background in philosophy and digital humanities allows me to approach
-                  research with both critical thinking and technical skills. I'm particularly interested in how 
-                  technology can enhance human capabilities while addressing ethical considerations in our increasingly
-                  digital world.
-                </p>
-                
                 <div className="flex flex-wrap gap-3">
-                  <motion.span 
-                    className="px-4 py-2 bg-portfolio-purple/10 text-portfolio-purple rounded-full text-sm"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    Machine Learning
-                  </motion.span>
-                  <motion.span 
-                    className="px-4 py-2 bg-portfolio-purple/10 text-portfolio-purple rounded-full text-sm"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    Digital Humanities
-                  </motion.span>
-                  <motion.span 
-                    className="px-4 py-2 bg-portfolio-purple/10 text-portfolio-purple rounded-full text-sm"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    Public Policy
-                  </motion.span>
-                  <motion.span 
-                    className="px-4 py-2 bg-portfolio-purple/10 text-portfolio-purple rounded-full text-sm"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    Philosophy
-                  </motion.span>
-                  <motion.span 
-                    className="px-4 py-2 bg-portfolio-purple/10 text-portfolio-purple rounded-full text-sm"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    Data Analysis
-                  </motion.span>
+                  {["AI Ethics", "Computational Social Science", "Data Visualization", "Policy Analysis", "Human-Computer Interaction"].map((skill, index) => (
+                    <motion.span 
+                      key={index}
+                      className="px-4 py-2 bg-portfolio-purple/10 text-portfolio-purple rounded-full text-sm"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
                 </div>
               </motion.div>
             </div>
@@ -121,3 +106,4 @@ const About = () => {
 };
 
 export default About;
+

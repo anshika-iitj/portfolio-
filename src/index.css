@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -169,5 +170,4 @@
   .timeline-dot {
     @apply absolute top-0 -left-[7px] w-3 h-3 rounded-full bg-portfolio-purple;
   }
-}
 }

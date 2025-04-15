@@ -1,12 +1,10 @@
 
 import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
-import { useFrame, Canvas, extend, useThree } from "@react-three/fiber";
-import { OrbitControls, Sphere, MeshDistortMaterial } from "@react-three/drei";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { Canvas, useFrame } from "@react-three/fiber";
 
-// Animated floating sphere component
-const AnimatedSphere = ({ position, size, color, speed, distort = 0.3 }) => {
+// Animated sphere with fallback error handling
+const AnimatedSphere = ({ position, size, color, speed = 0.3 }) => {
   const sphereRef = useRef<THREE.Mesh>(null);
   
   useFrame(({ clock }) => {
@@ -17,27 +15,19 @@ const AnimatedSphere = ({ position, size, color, speed, distort = 0.3 }) => {
   });
 
   return (
-    <Sphere args={[size, 64, 64]} position={position} ref={sphereRef}>
-      <MeshDistortMaterial 
+    <mesh ref={sphereRef} position={position}>
+      <sphereGeometry args={[size, 32, 32]} />
+      <meshStandardMaterial 
         color={color}
-        attach="material"
-        distort={distort}
-        speed={0.5}
         roughness={0.5}
         metalness={0.3}
       />
-    </Sphere>
+    </mesh>
   );
 };
 
 // Main scene component
 const Scene = () => {
-  const { camera } = useThree();
-  
-  useEffect(() => {
-    camera.position.z = 15;
-  }, [camera]);
-
   return (
     <>
       <ambientLight intensity={0.5} />
@@ -48,44 +38,48 @@ const Scene = () => {
         size={1.5} 
         color="#9b87f5" 
         speed={0.3} 
-        distort={0.4}
       />
       <AnimatedSphere 
         position={[4, 2, -10]} 
         size={3} 
         color="#7E69AB" 
         speed={0.2} 
-        distort={0.2}
       />
       <AnimatedSphere 
         position={[-3, -3, -8]} 
         size={2} 
         color="#1A1F2C" 
         speed={0.4} 
-        distort={0.3}
       />
       <AnimatedSphere 
         position={[5, -2, -12]} 
         size={1.8} 
         color="#8E9196" 
         speed={0.5} 
-        distort={0.5}
       />
-      
-      <EffectComposer>
-        <Bloom luminanceThreshold={0.2} intensity={0.5} levels={9} mipmapBlur />
-      </EffectComposer>
     </>
   );
+};
+
+// Error boundary component
+const ErrorFallback = () => {
+  return null; // Returns nothing, letting the parent component use FallbackBackground
 };
 
 // Export the canvas wrapper component
 const ThreeScene = () => {
   return (
     <div className="canvas-container">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 15], fov: 60 }}>
+      <Canvas 
+        dpr={[1, 2]} 
+        camera={{ position: [0, 0, 15], fov: 60 }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(new THREE.Color('#ffffff00'));
+        }}
+        shadows
+        errorBoundary={ErrorFallback}
+      >
         <Scene />
-        <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
       </Canvas>
     </div>
   );

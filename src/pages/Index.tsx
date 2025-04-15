@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import About from "../components/About";
@@ -9,6 +10,7 @@ import Skills from "../components/Skills";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import ThreeScene from "../components/ThreeScene";
+import FallbackBackground from "../components/FallbackBackground";
 import LoadingAnimation from "../components/LoadingAnimation";
 
 const Index = () => {
@@ -50,8 +52,10 @@ const Index = () => {
         <LoadingAnimation />
       ) : (
         <div className="relative">
-          {/* 3D Background */}
-          <ThreeScene />
+          {/* 3D Background with fallback */}
+          <ErrorBoundary FallbackComponent={() => <FallbackBackground />}>
+            <ThreeScene />
+          </ErrorBoundary>
           
           {/* Navigation */}
           <Navbar />
